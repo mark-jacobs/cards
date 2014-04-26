@@ -11,179 +11,35 @@ class Card
   def display_card
     puts "#{@rank} of #{@suit}"
   end
-end
 
-# Deck of 52 playing cards.
-class Deck
-
-  def initialize()
-    @deck_array = []
-    @card_suit
-    @card_rank
-    @card_counter = 52
-    # Loops to generate cards and populate the deck.
-    4.times do |suit|
-      13.times do |rank|
-        # Set the suit
-        case suit
-        when 0
-          @card_suit = :spades
-        when 1 
-          @card_suit = :hearts
-        when 2
-          @card_suit = :diamonds
-        when 3
-          @card_suit = :clubs
-        end
-        # Set the rank
-        case rank
-        when 0
-          @card_rank = :ace 
-        when 1
-          @card_rank = :two
-        when 2 
-          @card_rank = :three
-        when 3 
-          @card_rank = :four
-        when 4
-          @card_rank = :five
-        when 5
-          @card_rank = :six
-        when 6
-          @card_rank = :seven
-        when 7
-          @card_rank = :eight
-        when 8
-          @card_rank = :nine
-        when 9
-          @card_rank = :ten
-        when 10
-          @card_rank = :jack
-        when 11
-          @card_rank = :queen
-        when 12
-          @card_rank = :king
-        end
-        # Create the card and add to the array.
-        @deck_array << Card.new(@card_suit, @card_rank)
-      end
-    end
-    # Shuffle the deck.
-    shuffle_deck
-  end
-  
-  # public methods.
-  public 
-
-  # Display each card in the deck, for testing.
-  def display_deck
-    @deck_array.each do |x|
-      x.display_card
-    end
-  end
-
-  # Deal a card.
-  def deal_card
-    @card_counter -= 1
-    if @card_counter >= 0 
-      return card_to_return = @deck_array[@card_counter]
+  # Gives value of card for scoring in pontoon.
+  def card_value
+    the_value = 0
+    case @rank
+    when :ace 
+      the_value = 1
+    when :two 
+      the_value = 2
+    when :three
+      the_value = 3
+    when :four
+      the_value = 4
+    when :five
+      the_value = 5
+    when :six
+      the_value = 6
+    when :seven
+      the_value = 7
+    when :eight
+      the_value = 8
+    when :nine
+      the_value = 9
     else
-      "No cards remain in the deck"
+      the_value = 10
     end
-  end
-
-  # Private methods.
-  private 
-  
-  # Randomly chooses two cards and swaps them.
-  def shuffle_deck
-    300.times do
-      # Select cards to swap
-      position_one = rand(52)
-      position_two = rand(52)
-      # Get the cards from the array and swap.
-      card_one = @deck_array[position_one]
-      @deck_array[position_one] = @deck_array[position_two]
-      @deck_array[position_two] = card_one
-    end
-  end
-end
-
-# Holds the players and dealers cards.
-class Hand
-  
-  #initialise the hand with a card.
-  def initialize(a_card)
-    @cards_in_hand = [a_card]
-  end
-
-  # Return the cards in the hand.
-  def get_hand
-    return @cards_in_hand
-  end
-
-  def display_hand
-    @cards_in_hand.each do |x|
-      x.display_card
-    end
-  end
-
-  def receive_card(a_card)
-    @cards_in_hand << a_card
-  end
-  
-  # Calculates the score of the hand
-  def score_hand
-
-  end
-
-  # Returns length of hand
-  def hand_length
-    return @cards_in_hand.length
-  end
-
-  # Returns if pontoon...
-  def is_pontoon?
-    
+    return the_value
   end
 
 end
-
-# Run game and check scores etc.
-class Pontoon
-
-  def initialize
-    @my_deck = Deck.new
-    @player_hand = Hand.new(@my_deck.deal_card)
-    @dealer_hand = Hand.new(@my_deck.deal_card)
-    run_game
-  end
-
-  private 
-
-  # game logic.
-  def run_game
-    puts "Initial Card:"
-    @player_hand.display_hand
-    @player_hand.receive_card(@my_deck.deal_card)
-    puts "Cards in hand:"
-    @player_hand.display_hand
-    puts @player_hand.is_pontoon?
-  end
-
-  #Display cards in hand.
-  
-end
-
-
-# Start a game
-new_game = Pontoon.new
-
-
-
-
-
-
-
 
 
