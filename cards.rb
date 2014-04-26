@@ -1,6 +1,7 @@
 # Card class, represents a playing card.
 class Card
   
+  attr_reader :suit, :rank
   # Accepts rank and suit as arguments.
   def initialize(suit, rank)
     @suit = suit
@@ -67,7 +68,12 @@ class Deck
         @deck_array << Card.new(@card_suit, @card_rank)
       end
     end
+    # Shuffle the deck.
+    shuffle_deck
   end
+  
+  # public methods.
+  public 
 
   # Display each card in the deck, for testing.
   def display_deck
@@ -79,15 +85,103 @@ class Deck
   # Deal a card.
   def deal_card
     @card_counter -= 1
-    return card_to_return = @deck_array[@card_counter]
+    if @card_counter >= 0 
+      return card_to_return = @deck_array[@card_counter]
+    else
+      "No cards remain in the deck"
+    end
+  end
+
+  # Private methods.
+  private 
+  
+  # Randomly chooses two cards and swaps them.
+  def shuffle_deck
+    300.times do
+      # Select cards to swap
+      position_one = rand(52)
+      position_two = rand(52)
+      # Get the cards from the array and swap.
+      card_one = @deck_array[position_one]
+      @deck_array[position_one] = @deck_array[position_two]
+      @deck_array[position_two] = card_one
+    end
   end
 end
 
+# Holds the players and dealers cards.
+class Hand
+  
+  #initialise the hand with a card.
+  def initialize(a_card)
+    @cards_in_hand = [a_card]
+  end
 
-my_deck = Deck.new
-#my_deck.display_deck
-my_deck.deal_card.display_card
-#y.display_card
+  # Return the cards in the hand.
+  def get_hand
+    return @cards_in_hand
+  end
+
+  def display_hand
+    @cards_in_hand.each do |x|
+      x.display_card
+    end
+  end
+
+  def receive_card(a_card)
+    @cards_in_hand << a_card
+  end
+  
+  # Calculates the score of the hand
+  def score_hand
+
+  end
+
+  # Returns length of hand
+  def hand_length
+    return @cards_in_hand.length
+  end
+
+  # Returns if pontoon...
+  def is_pontoon?
+    
+  end
+
+end
+
+# Run game and check scores etc.
+class Pontoon
+
+  def initialize
+    @my_deck = Deck.new
+    @player_hand = Hand.new(@my_deck.deal_card)
+    @dealer_hand = Hand.new(@my_deck.deal_card)
+    run_game
+  end
+
+  private 
+
+  # game logic.
+  def run_game
+    puts "Initial Card:"
+    @player_hand.display_hand
+    @player_hand.receive_card(@my_deck.deal_card)
+    puts "Cards in hand:"
+    @player_hand.display_hand
+    puts @player_hand.is_pontoon?
+  end
+
+  #Display cards in hand.
+  
+end
+
+
+# Start a game
+new_game = Pontoon.new
+
+
+
+
 
 
 
